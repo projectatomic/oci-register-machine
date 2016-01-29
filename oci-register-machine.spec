@@ -150,8 +150,8 @@ export GOPATH=%{buildroot}/%{gopath}:$(pwd)/Godeps/_workspace:%{gopath}
 %files
 %license LICENSE
 %doc oci-register-machine.1.md README.md
-%dir %{_libexecdir}/docker/hooks.d
-%{_libexecdir}/docker/hooks.d/oci-register-machine
+%dir %{_libdir}/docker/hooks.d
+%{_libdir}/docker/hooks.d/oci-register-machine
 %{_mandir}/man1/oci-register-machine.1*
 
 %if 0%{?with_devel}
