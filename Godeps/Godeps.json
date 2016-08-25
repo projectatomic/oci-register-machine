@@ -1,0 +1,16 @@
+{
+	"ImportPath": "github.com/projectatomic/oci-register-machine",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v62",
+	"Deps": [
+		{
+			"ImportPath": "github.com/godbus/dbus",
+			"Comment": "v4.0.0-8-g58b0385",
+			"Rev": "58b0385796c5b97c6934388174215143cbd111bf"
+		},
+		{
+			"ImportPath": "gopkg.in/yaml.v1",
+			"Rev": "9f9df34309c04878acc86042b16630b0f696e1de"
+		}
+	]
+}
