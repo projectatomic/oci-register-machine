@@ -31,7 +31,7 @@
 
 Name:           %{repo}
 Version:        0
-Release:        5.12.git%{shortcommit}%{?dist}
+Release:        6.1.git%{shortcommit}%{?dist}
 Summary:        Golang binary to register OCI containers with systemd-machined
 License:        ASL 2.0
 URL:            https://%{import_path}
@@ -176,6 +176,13 @@ export GOPATH=%{buildroot}%{gopath}:$(pwd)/Godeps/_workspace:%{gopath}
 %endif
 
 %changelog
+* Wed Jan 24 2018 Daniel Walsh <dwalsh@redhat.com> - 0-6.1.git
+- Support stage being passed in via environment variable
+
+* Thu Jan 4 2018 Daniel Walsh <dwalsh@redhat.com> - 0-5.13.git
+- Disable this hook by default.
+- Not many people are using it, and it is causing some issues with Docker.
+
 * Thu Dec 21 2017 Daniel Walsh <dwalsh@redhat.com> - 0-5.12.git
 - Fix using json file to describe stages to run hook in.
 
