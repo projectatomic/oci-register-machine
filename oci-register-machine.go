@@ -21,6 +21,7 @@ var conn *dbus.Conn
 type State struct {
 	Version    string `json:"version"`
 	ID         string `json:"id"`
+	Status     string `json:"status"`
 	Pid        int    `json:"pid"`
 	Root       string `json:"root"`
 	Bundle     string `json:"bundle"`
@@ -121,16 +122,7 @@ func main() {
 		log.Fatalf("RegisterMachine Failed %m")
 	}
 
-	stage := map[bool]string{true: "prestart", false: "poststop"}[state.Pid > 0]
-	if env, ok := os.LookupEnv("stage"); ok {
-		stage = env
-	} else {
-		if len(os.Args) > 1 {
-			stage = os.Args[1]
-		}
-	}
-
-	log.Printf("Register machine: %s %s %d %s", stage, state.ID, state.Pid, state.Root)
+	log.Printf("Register machine: %s %s %d %s", state.ID, state.Status, state.Pid, state.Root)
 	passId := state.ID
 	// If id is shorter than 32, then read container_uuid from the container process environment variables
 	if len(passId) < 32 && state.Pid > 0 {
@@ -163,15 +155,15 @@ func main() {
 		log.Fatalf("RegisterMachine Failed %m")
 	}
 
-	switch stage {
-	case "prestart":
+	switch state.Status {
+	case "created":
 		{
 			if err = RegisterMachine(state.ID, passId, int(state.Pid), state.Root); err != nil {
 				log.Fatalf("Register machine failed: %m")
 			}
 			return
 		}
-	case "poststop":
+	case "stopped":
 		{
 			if err := TerminateMachine(state.ID); err != nil {
 				if !strings.Contains(err.Error(), "No machine") {
@@ -180,6 +172,6 @@ func main() {
 			}
 			return
 		}
-		log.Printf("Does not support the %q stage must be prestart|poststop", stage)
 	}
+	log.Printf("Does not support the %q status must be created|stopped", state.Status)
 }
